@@ -14,13 +14,13 @@ func TestStripComments(t *testing.T) {
 			},
 			{
 				Codes: []GCode{
-					{Comment: "bar"},
+					// {Comment: "bar"},
 				},
 			},
 			{
 				Codes: []GCode{
 					{Letter: "A"},
-					{Comment: "baz"},
+					// {Comment: "baz"},
 				},
 			},
 		},

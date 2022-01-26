@@ -9,17 +9,19 @@ import (
 // A GCode is either a single G-Code like "X12.3" or an in line comment in the
 // form of "(Comment)".
 type GCode struct {
-	Letter  string
-	Value   float64
-	Comment string
+	Letter string
+	Value  float64
+	// Comment string
 }
 
 // String will return a G-Code formatted string.
 func (c *GCode) String() string {
 	// check if comment
-	if c.Comment != "" {
-		return fmt.Sprintf("(%s)", c.Comment)
-	}
+	/*
+		if c.Comment != "" {
+			return fmt.Sprintf("(%s)", c.Comment)
+		}
+	*/
 
 	// write G-Code
 	return c.Letter + strings.TrimRight(strings.TrimRight(fmt.Sprintf("%f", c.Value), "0"), ".")

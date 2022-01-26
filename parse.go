@@ -64,13 +64,13 @@ func ParseLine(s string) (Line, error) {
 		if strings.HasPrefix(s, "(") {
 			if i := strings.Index(s, ")"); i >= 0 {
 				// save comment
-				c.Comment = s[1:i]
+				// c.Comment = s[1:i]
 
 				// reset string
 				s = strings.TrimSpace(s[i+1:])
 
 				// add code
-				l.Codes = append(l.Codes, c)
+				// l.Codes = append(l.Codes, c)
 
 				// go on
 				continue

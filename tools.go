@@ -7,18 +7,20 @@ func StripComments(f *File) {
 		j := i - cl
 		l := f.Lines[j]
 
-		cd := 0
-		for ii := range l.Codes {
-			jj := ii - cd
-			c := l.Codes[jj]
+		/*
+			cd := 0
+			for ii := range l.Codes {
+				jj := ii - cd
+				c := l.Codes[jj]
 
-			// remove codes with comments
-			if c.Comment != "" {
-				l.Codes = append(l.Codes[:jj], l.Codes[jj+1:]...)
-				cd++
-				continue
+				// remove codes with comments
+				if c.Comment != "" {
+					l.Codes = append(l.Codes[:jj], l.Codes[jj+1:]...)
+					cd++
+					continue
+				}
 			}
-		}
+		*/
 
 		// remove lines with comments or no codes
 		if l.Comment != "" || len(l.Codes) == 0 {

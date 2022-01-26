@@ -9,9 +9,8 @@ import (
 
 var testGCode = `; Line Comment
 G1 ; After Line Comment
-(Word Comment)
-G2 (Word Comment) M1
-G3 (Word Comment) M2 (Word Comment) M3
+G2 M1
+G3 M2 M3
 G4
 G5 X0 Y0
 G6 Z12.7
@@ -36,24 +35,26 @@ func TestParse(t *testing.T) {
 					{Letter: "G", Value: 1},
 				},
 			},
-			{
-				Codes: []GCode{
-					{Comment: "Word Comment"},
+			/*
+				{
+					Codes: []GCode{
+						// {Comment: "Word Comment"},
+					},
 				},
-			},
+			*/
 			{
 				Codes: []GCode{
 					{Letter: "G", Value: 2},
-					{Comment: "Word Comment"},
+					//{Comment: "Word Comment"},
 					{Letter: "M", Value: 1},
 				},
 			},
 			{
 				Codes: []GCode{
 					{Letter: "G", Value: 3},
-					{Comment: "Word Comment"},
+					// {Comment: "Word Comment"},
 					{Letter: "M", Value: 2},
-					{Comment: "Word Comment"},
+					// {Comment: "Word Comment"},
 					{Letter: "M", Value: 3},
 				},
 			},
