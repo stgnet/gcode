@@ -10,27 +10,27 @@ func TestConvertToSVG(t *testing.T) {
 	f := &File{
 		Lines: []Line{
 			{
-				Codes: []GCode{
-					{Letter: "G", Value: 0},
-					{Letter: "X", Value: 2},
+				Codes: GCodes{
+					byte('G'): 0,
+					byte('X'): 2,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "X", Value: 3},
-					{Letter: "Y", Value: 4},
+				Codes: GCodes{
+					byte('X'): 3,
+					byte('Y'): 4,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "G", Value: 1},
-					{Letter: "X", Value: -1},
+				Codes: GCodes{
+					byte('G'): 1,
+					byte('X'): -1,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "X", Value: 4},
-					{Letter: "Y", Value: 5},
+				Codes: GCodes{
+					byte('X'): 4,
+					byte('Y'): 5,
 				},
 			},
 		},

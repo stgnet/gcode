@@ -8,30 +8,30 @@ import (
 
 // A GCode is either a single G-Code like "X12.3" or an in line comment in the
 // form of "(Comment)".
+/*
 type GCode struct {
 	Letter string
 	Value  float64
 	// Comment string
 }
+*/
+type GCodes map[byte]float64
 
 // String will return a G-Code formatted string.
+/*
 func (c *GCode) String() string {
-	// check if comment
-	/*
-		if c.Comment != "" {
-			return fmt.Sprintf("(%s)", c.Comment)
-		}
-	*/
-
 	// write G-Code
 	return c.Letter + strings.TrimRight(strings.TrimRight(fmt.Sprintf("%f", c.Value), "0"), ".")
 }
+*/
 
 // A Line consists of multiple G-Codes and a potential line comment.
 type Line struct {
-	Codes   []GCode
+	Codes   GCodes
 	Comment string
 }
+
+var gcOrder = []byte("GMABCDEFHIJKLNOPQRSTUVWXYZ")
 
 // String will return a G-Code formatted string.
 func (l *Line) String() string {
@@ -39,14 +39,18 @@ func (l *Line) String() string {
 	s := ""
 
 	// write all codes
-	for i, c := range l.Codes {
+	for _, i := range gcOrder {
+		v, exists := l.Codes[i]
+		if !exists {
+			continue
+		}
 		// add space if any codes have been already added
-		if i > 0 {
+		if len(s) > 0 {
 			s = s + " "
 		}
 
 		// add string
-		s = s + c.String()
+		s = s + string(i) + strings.TrimRight(strings.TrimRight(fmt.Sprintf("%f", v), "0"), ".")
 	}
 
 	// write comment if existing

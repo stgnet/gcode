@@ -3,6 +3,7 @@ package gcode
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"io"
 	"strconv"
 	"strings"
@@ -39,7 +40,7 @@ func ParseFile(r io.Reader) (*File, error) {
 // ParseLine will parse the specified string as a line of G-Codes.
 func ParseLine(s string) (Line, error) {
 	// prepare line
-	l := Line{}
+	l := Line{Codes: GCodes{}}
 
 	// extract line comment
 	if i := strings.Index(s, ";"); i >= 0 {
@@ -57,9 +58,6 @@ func ParseLine(s string) (Line, error) {
 
 	// parse line
 	for s != "" {
-		// prepare code
-		c := GCode{}
-
 		// check for word comment
 		if strings.HasPrefix(s, "(") {
 			if i := strings.Index(s, ")"); i >= 0 {
@@ -71,6 +69,7 @@ func ParseLine(s string) (Line, error) {
 
 				// add code
 				// l.Codes = append(l.Codes, c)
+				l.Comment = l.Comment + s[0:i+1]
 
 				// go on
 				continue
@@ -100,7 +99,7 @@ func ParseLine(s string) (Line, error) {
 		}
 
 		// extract letter
-		c.Letter = string(w[0])
+		letter := w[0]
 		w = w[1:]
 
 		// parse value
@@ -108,11 +107,18 @@ func ParseLine(s string) (Line, error) {
 		if err != nil {
 			return l, err
 		}
+		_, exists := l.Codes[byte(letter)]
+		if exists {
+			return l, errors.New("letter occurs twice on line")
+		}
 
-		c.Value = f
+		if letter < 'A' && letter > 'Z' {
+			return l, errors.New("unexpected letter not A-Z")
+		}
 
 		// add code
-		l.Codes = append(l.Codes, c)
+		fmt.Printf("l = %#v\n", l)
+		l.Codes[byte(letter)] = f
 	}
 
 	return l, nil

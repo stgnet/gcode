@@ -13,13 +13,13 @@ func TestStripComments(t *testing.T) {
 				Comment: "foo",
 			},
 			{
-				Codes: []GCode{
+				Codes: GCodes{
 					// {Comment: "bar"},
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "A"},
+				Codes: GCodes{
+					byte('A'): 0,
 					// {Comment: "baz"},
 				},
 			},
@@ -31,8 +31,8 @@ func TestStripComments(t *testing.T) {
 	assert.Equal(t, &File{
 		Lines: []Line{
 			{
-				Codes: []GCode{
-					{Letter: "A"},
+				Codes: GCodes{
+					byte('A'): 0,
 				},
 			},
 		},
@@ -43,20 +43,20 @@ func TestOffsetXYZ(t *testing.T) {
 	f := &File{
 		Lines: []Line{
 			{
-				Codes: []GCode{
-					{Letter: "G", Value: 1},
+				Codes: GCodes{
+					byte('G'): 1,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "X", Value: 2},
+				Codes: GCodes{
+					byte('X'): 2,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "X", Value: 3},
-					{Letter: "Y", Value: 4},
-					{Letter: "Z", Value: 5},
+				Codes: GCodes{
+					byte('X'): 3,
+					byte('Y'): 4,
+					byte('Z'): 5,
 				},
 			},
 		},
@@ -67,20 +67,20 @@ func TestOffsetXYZ(t *testing.T) {
 	assert.Equal(t, &File{
 		Lines: []Line{
 			{
-				Codes: []GCode{
-					{Letter: "G", Value: 1},
+				Codes: GCodes{
+					byte('G'): 1,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "X", Value: 3},
+				Codes: GCodes{
+					byte('X'): 3,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "X", Value: 4},
-					{Letter: "Y", Value: 6},
-					{Letter: "Z", Value: 8},
+				Codes: GCodes{
+					byte('X'): 4,
+					byte('Y'): 6,
+					byte('Z'): 8,
 				},
 			},
 		},

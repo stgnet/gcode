@@ -18,8 +18,8 @@ func ConvertToSVG(f *File) string {
 	for _, l := range f.Lines {
 		var ok bool
 
-		for _, c := range l.Codes {
-			if c.Letter == "G" && c.Value == 0 {
+		for l, v := range l.Codes {
+			if l == byte('G') && v == 0 {
 				// finish previous path
 				paths[g] = append(paths[g], strings.Join(path, " "))
 
@@ -29,7 +29,7 @@ func ConvertToSVG(f *File) string {
 
 				// starting pos
 				path = append(path, fmt.Sprintf("M%f,%f", x, y))
-			} else if c.Letter == "G" && c.Value == 1 {
+			} else if l == byte('G') && v == 1 {
 				// finish previous path
 				paths[g] = append(paths[g], strings.Join(path, " "))
 
@@ -40,27 +40,27 @@ func ConvertToSVG(f *File) string {
 				// starting pos
 				path = append(path, fmt.Sprintf("M%f,%f", x, y))
 
-			} else if c.Letter == "X" {
+			} else if l == byte('X') {
 				// set state
-				x = c.Value
+				x = v
 				ok = true
 
-				if c.Value > maxX {
-					maxX = c.Value
+				if v > maxX {
+					maxX = v
 				}
-				if c.Value < shiftX {
-					shiftX = c.Value
+				if v < shiftX {
+					shiftX = v
 				}
-			} else if c.Letter == "Y" {
+			} else if l == byte('Y') {
 				// set state
-				y = c.Value
+				y = v
 				ok = true
 
-				if c.Value > maxY {
-					maxY = c.Value
+				if v > maxY {
+					maxY = v
 				}
-				if c.Value < shiftY {
-					shiftY = c.Value
+				if v < shiftY {
+					shiftY = v
 				}
 			}
 		}

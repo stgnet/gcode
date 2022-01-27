@@ -10,7 +10,6 @@ import (
 var testGCode = `; Line Comment
 G1 ; After Line Comment
 G2 M1
-G3 M2 M3
 G4
 G5 X0 Y0
 G6 Z12.7
@@ -28,11 +27,12 @@ func TestParse(t *testing.T) {
 		Lines: []Line{
 			{
 				Comment: " Line Comment",
+				Codes:   GCodes{},
 			},
 			{
 				Comment: " After Line Comment",
-				Codes: []GCode{
-					{Letter: "G", Value: 1},
+				Codes: GCodes{
+					byte('G'): 1,
 				},
 			},
 			/*
@@ -43,54 +43,44 @@ func TestParse(t *testing.T) {
 				},
 			*/
 			{
-				Codes: []GCode{
-					{Letter: "G", Value: 2},
-					//{Comment: "Word Comment"},
-					{Letter: "M", Value: 1},
+				Codes: GCodes{
+					byte('G'): 2,
+					byte('M'): 1,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "G", Value: 3},
-					// {Comment: "Word Comment"},
-					{Letter: "M", Value: 2},
-					// {Comment: "Word Comment"},
-					{Letter: "M", Value: 3},
+				Codes: GCodes{
+					byte('G'): 4,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "G", Value: 4},
+				Codes: GCodes{
+					byte('G'): 5,
+					byte('X'): 0,
+					byte('Y'): 0,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "G", Value: 5},
-					{Letter: "X"},
-					{Letter: "Y"},
+				Codes: GCodes{
+					byte('G'): 6,
+					byte('Z'): 12.7,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "G", Value: 6},
-					{Letter: "Z", Value: 12.7},
+				Codes: GCodes{
+					byte('G'): 7,
+					byte('X'): -0.4,
+					byte('Y'): 0.8,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "G", Value: 7},
-					{Letter: "X", Value: -0.4},
-					{Letter: "Y", Value: 0.8},
+				Codes: GCodes{
+					byte('S'): 3000,
 				},
 			},
 			{
-				Codes: []GCode{
-					{Letter: "S", Value: 3000},
-				},
-			},
-			{
-				Codes: []GCode{
-					{Letter: "X", Value: 56.666},
+				Codes: GCodes{
+					byte('X'): 56.666,
 				},
 			},
 		},
